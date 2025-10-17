@@ -1,0 +1,15 @@
+pipeline {
+    agent {
+        docker {
+            image 'ubuntu'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Running inside Docker container...'
+                sh 'echo Hello from Jenkins + Docker!'
+            }
+        }
+    }
+}
