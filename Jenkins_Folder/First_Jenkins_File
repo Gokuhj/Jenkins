@@ -6,7 +6,7 @@ pipeline {
     stage('Test') {
       steps {
         sh 'echo "Running on a linux environment"'
-        sh 'whoami
+        sh 'whoami'
       }
     }
   }
