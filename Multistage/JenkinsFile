@@ -1,0 +1,47 @@
+pipeline {
+  agent none
+
+  stages {
+    stage('Back-end') {
+      agent {
+        docker { image 'maven:3.8.1-adoptopenjdk-11' }
+      }
+      steps {
+        echo 'Running Maven container...'
+        sh 'mvn --version'
+        sh 'java -version'
+        sh 'ls -la'
+        sh 'pwd'
+        sh 'whoami || id -u'
+      }
+    }
+
+    stage('Front-end') {
+      agent {
+        docker { image 'node:16-alpine' }
+      }
+      steps {
+        echo 'Running Node.js container...'
+        sh 'node --version'
+        sh 'npm --version'
+        sh 'ls -la'
+        sh 'pwd'
+        sh 'whoami || id -u'
+      }
+    }
+
+    stage('Database') {
+      agent {
+        docker { image 'mysql:8.0' }
+      }
+      environment {
+        MYSQL_ROOT_PASSWORD = 'rootpass'
+      }
+      steps {
+        echo 'Running MySQL container...'
+        sh 'mysql --version'
+        sh 'echo "SHOW DATABASES;" | mysql -uroot -p$MYSQL_ROOT_PASSWORD'
+      }
+    }
+  }
+}
